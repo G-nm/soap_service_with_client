@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="studentregistration" targetNamespace="http://localhost:8000/studentregistration"
+    xmlns="http://localhost:8000/studentregistration"
+    xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+    xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsoap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ws="http://localhost:8000/studentregistration">
+    
+    <wsdl:message name="registrationinput">
+        <wsdl:part name="username" type="xs:string"></wsdl:part>
+        <wsdl:part name="age" type="xs:int"></wsdl:part>
+        <wsdl:part name="phonenumber" type="xs:string"></wsdl:part>
+        <wsdl:part name="address" type="xs:string"></wsdl:part>
+        <wsdl:part name="entrypoints" type="xs:string"></wsdl:part>
+        <wsdl:part name="email" type="xs:string"></wsdl:part>
+        <wsdl:part name="studentid" type="xs:int"></wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="registrationoutput">
+        <wsdl:part name="status" type="xs:string"></wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="searhinput">
+        <wsdl:part name="studentid" type="xs:int"></wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:message name="searchoutput">
+        <wsdl:part name="username" type="xs:string"></wsdl:part>
+        <wsdl:part name="age" type="xs:int"></wsdl:part>
+        <wsdl:part name="phonenumber" type="xs:string"></wsdl:part>
+        <wsdl:part name="address" type="xs:string"></wsdl:part>
+        <wsdl:part name="entrypoints" type="xs:string"></wsdl:part>
+        <wsdl:part name="email" type="xs:string"></wsdl:part>
+        <wsdl:part name="studentid" type="xs:int"></wsdl:part>
+    </wsdl:message>
+    
+    <wsdl:portType name="sis">
+        <wsdl:operation name="registration">
+            <wsdl:input message="registrationinput"></wsdl:input>
+            <wsdl:output message="registrationoutput"></wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="search">
+            <wsdl:input message="searhinput"></wsdl:input>
+            <wsdl:output message="searchoutput"></wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <wsdl:binding name="sisytem" type="sis">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+        <wsdl:operation name="registration">
+            <soap:operation soapAction="registration"/>
+            <wsdl:input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="search">
+            <soap:operation soapAction="search"/>
+            <wsdl:input>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="sis">
+        <wsdl:port name="sisport" binding="sisytem">
+            <soap:address location="http://localhost:8001/studentregistration"/>
+        </wsdl:port>
+    </wsdl:service>
+    
+</wsdl:definitions>
