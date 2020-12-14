@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
-const soap = require("soap");
 const cors = require("cors");
+const morgan = require("morgan");
+
+const soap = require("soap");
 const path = require("path");
 const { insertintotable, selectuser } = require("./test");
 
@@ -52,24 +54,13 @@ let service = {
     },
   },
 };
-
+app.use(cors());
 let xml = require("fs").readFileSync("studentregistration.wsdl", "utf-8");
 
 app.get("/", (req, response) => {
   response.sendFile(path.join(__dirname, "build", "index.html"));
 });
-
-let server = app.listen(8001);
-app.use(cors({ origin: "*", credentials: true }));
-app.options("/*", cors());
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
+app.use(morgan("dev"));
+let server = app.listen(8001, () => {
+  soap.listen(app, "/studentregistration", service, xml);
 });
-
-
-
-soap.listen(server, "/studentregistration", service, xml);
